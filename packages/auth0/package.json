@@ -1,5 +1,5 @@
 {
-  "name": "@shreyas/simulacrum-auth0-simulator",
+  "name": "@shreyas-kuloor/simulacrum-auth0-simulator",
   "version": "0.9.0",
   "description": "Run local instance of Auth0 API for local development and integration testing",
   "main": "dist/index.js",
