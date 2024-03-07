@@ -35,7 +35,7 @@ const createAuth0Service: ResourceServiceCreator = (slice, options) => ({
   name: 'Auth0Service',
   *init() {
     let debug = !!slice.slice('debug').get();
-    let { port, issuer } = options;
+    let { port } = options;
     let config = getConfig(slice.slice('options', 'options').get());
 
     let serviceURL = () => getServiceUrl(slice.get());

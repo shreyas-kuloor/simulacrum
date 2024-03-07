@@ -11,7 +11,7 @@ export const configurationSchema = z.object({
   domain: z.optional(z.string().min(1, 'domain is required')),
   audience: z.optional(z.string().min(1, 'audience is required')),
   clientID: z.optional(z.string().max(32, 'must be 32 characters long')),
-  issuer: z.optional(z.string()),
+  issuer: z.string().nullable().optional(),
   scope: z.union([
       z.string().min(1, 'scope is required'),
       z.array(z.object({
