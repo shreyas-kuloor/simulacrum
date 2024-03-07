@@ -42,7 +42,7 @@ const createLogger = (debug: boolean) => ({
 });
 
 export const createAuth0Handlers = (store: Auth0Store, people: Iterable<Person>, serviceURL: () => URL, options: Auth0Configuration, debug: boolean): Record<Routes, RequestHandler> => {
-  let { audience, scope, clientID, rulesDirectory } = options;
+  let { audience, scope, clientID, issuer, rulesDirectory } = options;
   let personQuery = createPersonQuery(people);
 
   let authorizeHandlers: Record<ResponseModes, RequestHandler> = {
@@ -159,7 +159,7 @@ export const createAuth0Handlers = (store: Auth0Store, people: Iterable<Person>,
     ['/oauth/token']: async function (req, res, next) {
       logger.log({ '/oauth/token': { body: req.body, query: req.query } });
       try {
-        let iss = serviceURL().toString();
+        let iss = issuer ?? serviceURL().toString();
 
         let responseClientId: string =
           (req?.body?.client_id as string) ?? clientID;

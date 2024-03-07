@@ -35,7 +35,7 @@ const createAuth0Service: ResourceServiceCreator = (slice, options) => ({
   name: 'Auth0Service',
   *init() {
     let debug = !!slice.slice('debug').get();
-    let { port } = options;
+    let { port, issuer } = options;
     let config = getConfig(slice.slice('options', 'options').get());
 
     let serviceURL = () => getServiceUrl(slice.get());
@@ -63,7 +63,7 @@ const createAuth0Service: ResourceServiceCreator = (slice, options) => ({
       store,
       serviceURL,
       people,
-      port
+      port,
     });
 
     return {
@@ -76,7 +76,7 @@ const createAuth0Service: ResourceServiceCreator = (slice, options) => ({
 export function createAuth0Server(options: Auth0ServerOptions): Operation<Server> {
   let { config, serviceURL, store, people, port, debug = true } = options;
   let auth0 = createAuth0Handlers(store, people, serviceURL, config, debug);
-  let openid = createOpenIdHandlers(serviceURL);
+  let openid = createOpenIdHandlers(serviceURL, config);
 
   return {
     name: 'Auth0Server',

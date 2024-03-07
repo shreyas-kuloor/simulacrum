@@ -11,6 +11,7 @@ export const configurationSchema = z.object({
   domain: z.optional(z.string().min(1, 'domain is required')),
   audience: z.optional(z.string().min(1, 'audience is required')),
   clientID: z.optional(z.string().max(32, 'must be 32 characters long')),
+  issuer: z.optional(z.string()),
   scope: z.union([
       z.string().min(1, 'scope is required'),
       z.array(z.object({
@@ -29,7 +30,7 @@ export const configurationSchema = z.object({
 
 export type Schema = z.infer<typeof configurationSchema>;
 
-type ReadonlyFields = 'audience' | 'clientID' | 'scope' | 'port';
+type ReadonlyFields = 'audience' | 'clientID' | 'issuer' | 'scope' | 'port';
 
 // grant_type list as defined by auth0
 // https://auth0.com/docs/get-started/applications/application-grant-types#spec-conforming-grants

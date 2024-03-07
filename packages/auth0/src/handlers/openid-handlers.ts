@@ -1,6 +1,7 @@
 import type { RequestHandler } from 'express';
 import { JWKS } from '../auth/constants';
 import { removeTrailingSlash } from './url';
+import { Auth0Configuration } from '../types';
 
 type Routes =
   | '/jwks.json'
@@ -16,7 +17,8 @@ export interface OpenIdConfiguration {
   jwks_uri: string;
 }
 
-export const createOpenIdHandlers = (serviceURL: () => URL): Record<OpenIdRoutes, RequestHandler> => {
+export const createOpenIdHandlers = (serviceURL: () => URL, options: Auth0Configuration): Record<OpenIdRoutes, RequestHandler> => {
+  let { issuer } = options;
   return {
     ['/.well-known/jwks.json']: function(_, res) {
       res.json(JWKS);
@@ -26,7 +28,7 @@ export const createOpenIdHandlers = (serviceURL: () => URL): Record<OpenIdRoutes
       let url = removeTrailingSlash(serviceURL().toString());
 
       res.json({
-        issuer: `${url}/`,
+        issuer: issuer ?? `${url}/`,
         authorization_endpoint: [url, "authorize"].join('/'),
         token_endpoint: [url, "oauth", "token"].join('/'),
         userinfo_endpoint: [url, "userinfo"].join('/'),
