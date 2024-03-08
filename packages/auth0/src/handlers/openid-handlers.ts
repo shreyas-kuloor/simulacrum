@@ -26,13 +26,14 @@ export const createOpenIdHandlers = (serviceURL: () => URL, options: Auth0Config
 
     ['/.well-known/openid-configuration']: function(_, res) {
       let url = removeTrailingSlash(serviceURL().toString());
+      let issuerUrl = issuer ? removeTrailingSlash(issuer) : null;
 
       res.json({
-        issuer: issuer ?? `${url}/`,
+        issuer: `${issuerUrl}/` ?? `${url}/`,
         authorization_endpoint: [url, "authorize"].join('/'),
         token_endpoint: [url, "oauth", "token"].join('/'),
         userinfo_endpoint: [url, "userinfo"].join('/'),
-        jwks_uri: [url, ".well-known", "jwks.json"].join('/'),
+        jwks_uri: [issuerUrl ?? url, ".well-known", "jwks.json"].join('/'),
       });
     },
   };
