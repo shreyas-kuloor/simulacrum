@@ -29,7 +29,7 @@ export const createOpenIdHandlers = (serviceURL: () => URL, options: Auth0Config
       let issuerUrl = issuer ? removeTrailingSlash(issuer) : null;
 
       res.json({
-        issuer: `${issuerUrl}/` ?? `${url}/`,
+        issuer: issuerUrl ? `${issuerUrl}/` : `${url}/`,
         authorization_endpoint: [url, "authorize"].join('/'),
         token_endpoint: [url, "oauth", "token"].join('/'),
         userinfo_endpoint: [url, "userinfo"].join('/'),
